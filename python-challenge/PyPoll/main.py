@@ -1,60 +1,43 @@
-#import modules
+#Import modules
 import os
 import csv
-import statistics as stat
-import math
 
 #Set file paths
 csv_path = os.path.join('Resources','election_data.csv')
 
+#Open file
 with open(csv_path,newline = "") as csv_file:
     csv_reader= csv.reader(csv_file, delimiter= ",")
-
+#Assign header row and move past it
     header= next(csv_reader)
-    print(header)
-
+#Convert from text object to list for aggregation and iteration
     data_list= [i for i in csv_reader]
-
+#Count votes
     votes= len(data_list)
-    print("Total Votes= "+str(votes))
+#Pick out unique candidate names
+    candidates= set([row[2] for row in data_list])
+#Initialize list of Candidate name, Total votes, and Percent of votes for each candidate
+    cand_list= [[i,0,0] for i in candidates]
+#Count votes for each candidate 
+    for row in data_list:
+        for cand in cand_list:
+            if row[2] == cand[0]:
+                cand[1] = cand[1] + 1
+#Calculate percent of votes for each candidate
+    for cand in cand_list:
+        cand[2] = round(cand[1]/votes,3)
+#Sort the candidates by most to least votes
+    cand_list.sort(key= lambda x: x[2],reverse= True)
 
-    candidates= [i[2] for i in data_list]
-    candidates= set(candidates)
-    print(candidates)
-
-#initialize the dictionary for candidates
-    cand_dict= {}
-    for i in candidates:
-        cand_dict[i]= [0,0]
-    
-#count votes for each candidate
-    for i in data_list:
-        cand_dict[i[2]][0]= cand_dict[i[2]][0] + 1
-    
-    for i in cand_dict:
-        cand_dict[i][1] = round(cand_dict[i][0]/votes,3) * 100
-
+#Print the Election Results
     print("Election Results")
     print("-"*30)
     print("Total Votes: "+str(votes))
     print("-"*30)
-    
-    for i in cand_dict:
-        print(i+ ": "+ str(cand_dict[i][1])+ "% (" + str(cand_dict[i][0]) + ")")
-
+#Print each candidate, the percent of votes, and the total votes for each candidate
+    for cand in cand_list:
+        print(cand[0]+ ": "+ '%.f' % (cand[2]*100) + "% (" + str(cand[1]) + ")")
     print("-"*30)
-    
-    
-
-
-#   Election Results
-#   -------------------------
-#   Total Votes: 3521001
-#   -------------------------
-#   Khan: 63.000% (2218231)
-#   Correy: 20.000% (704200)
-#   Li: 14.000% (492940)
-#   O'Tooley: 3.000% (105630)
-#   -------------------------
-#   Winner: Khan
-#   -------------------------
+#Print the winner
+    print("** " + cand_list[0][0].upper() + " WINS!" + " **")
+    print("-"*30)
