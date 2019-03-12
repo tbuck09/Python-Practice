@@ -41,3 +41,20 @@ with open(csv_path,newline = "") as csv_file:
 #Print the winner
     print("** " + cand_list[0][0].upper() + " WINS!" + " **")
     print("-"*30)
+
+#Write to text file
+elec_results= open("Election_Results.txt","w")
+
+elec_results.write("Election Results\n")
+elec_results.write("-"*30+"\n")
+elec_results.write("Total Votes: "+str(votes)+"\n")
+elec_results.write("-"*30+"\n")
+#Print each candidate, the percent of votes, and the total votes for each candidate
+for cand in cand_list:
+    elec_results.write(cand[0]+ ": "+ '%.f' % (cand[2]*100) + "% (" + str(cand[1]) + ")"+"\n")
+elec_results.write("-"*30+"\n")
+#Print the winner
+elec_results.write("** " + cand_list[0][0].upper() + " WINS!" + " **"+"\n")
+elec_results.write("-"*30+"\n")
+
+elec_results.close()
