@@ -1,5 +1,5 @@
-# Tyler-Bootcamp-Homework-Module-3
-DU Data Analytics Bootcamp Homework for Module-3
+# Python-Practice
+This is the repository for the DU Data Analytics Bootcamp Module-2 homework for practice writing and executing simple Python scripts.
 
 ## Contents
 
